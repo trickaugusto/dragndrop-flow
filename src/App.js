@@ -5,8 +5,12 @@ import { Button } from 'react-bootstrap';
 import { FaEdit, FaPlusSquare, FaTrashAlt } from 'react-icons/fa';
 import { v4 as uuidv4 } from 'uuid';
 import Modal from './components/Modal';
+import {saveLocalStorage, getStateFromLocalStorage } from './helpers/localStorageHandler';
+import { flowExecHandler } from './helpers/flowExecHandler';
 
-const flowEvents = [
+const localStorageData = getStateFromLocalStorage();
+
+const flowEvents = localStorageData ? localStorageData : [
   {
     id: uuidv4(),
     consoleValue: 'Olá',
@@ -64,7 +68,7 @@ function App() {
   }
 
   function executeFlow() {
-    console.log(steps);
+    flowExecHandler();
   }
 
   function saveInfos(id, valueName, consoleValue) {
@@ -78,11 +82,11 @@ function App() {
           return item;
         }
       });
-    }); 
+    });
   }
 
   function saveFlow() {
-    console.log('save flow');
+    saveLocalStorage(steps)
   }
 
   function removeEventStep(id) {
